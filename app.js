@@ -1,6 +1,4 @@
 const express = require("express");
-const defaultRouter = require("./routes/default");
-const employeeRouter = require("./routes/employee");
 
 let server = express();
 
@@ -10,8 +8,16 @@ server.use("/", function(request, response, next){
     next();
 })
 
-server.use("/api/employee", employeeRouter);
-server.use("/", defaultRouter);
+server.get("/api/employee", function (request, response){
+    let employee = {
+        name: request.query.name,
+        id: request.query.id
+    }
+    response.send(employee);
+});
+server.get("/", function (request, response){
+    response.send("Welcome to server");
+});
 
 server.listen(5001, function(error){
     if(!error){
